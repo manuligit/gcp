@@ -1,0 +1,16 @@
+* {
+    background-color: #7b9095;
+    color: white;
+    font-family: 'Courier New', Courier, monospace
+}
+
+.task {
+    padding: 1em;
+    margin: 0.3em;
+    border: thick double white;
+}
+
+.divider {
+    height: 3px;
+    background-color: rgb(255,255,255,1);
+}
