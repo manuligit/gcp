@@ -1,13 +1,17 @@
 * {
     background-color: #7b9095;
     color: white;
-    font-family: 'Courier New', Courier, monospace
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .task {
     padding: 1em;
     margin: 0.3em;
     border: thick double white;
+}
+
+input {
+    margin-bottom: 1em;
 }
 
 .divider {
