@@ -14,5 +14,8 @@ task:
 -link (if any)
 
 
-
 -journey drop duration showing in the ui?
+
+-tabit ylös repeatin mukaan (+ done)
+
+-done-tabiin mahdoitus tehdä taski uusiksi

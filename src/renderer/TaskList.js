@@ -5,18 +5,22 @@ class TaskList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{task:'asdf', desc:'bnm', type:'Once', done: false}],
+      list: [{task:'Sample', desc:'Sample text', type:'Once', done: false}],
       done: [],
-      type: 'Once'
+      type: 'Once',
+      filter: 'All'
     }
+
     this.handleChange = this.handleChange.bind(this);
     this.addTask = this.addTask.bind(this);
     this.markDone = this.markDone.bind(this);
+    this.filterList = this.filterList.bind(this);
     this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
+    this.markRedo = this.markRedo.bind(this);
   }
 
   handleChange(event) {
-    console.log(event.target.value)
+    console.log(event.target.value);
     this.setState({type: event.target.value});
   }
 
@@ -29,44 +33,76 @@ class TaskList extends React.Component {
       done: false
     }
 
-    let list = this.state.list.concat(item)
-
-    this.setState({ list: list })
+    let list = this.state.list.concat(item);
+    
+    this.setState({ list: list });
     //console.log(list)
     //Add list to local storage to preserve after refreshing:
-    this.saveToLocalStorage(list);
+    this.saveToLocalStorage(list, this.state.done);
   }
 
+  //Mark task as done and move it to the list of done tasks:
   markDone (task) {
+    //console.log('markDone disabled')
     let tasks = this.state.list.slice();
-    tasks = tasks.filter(item => item !== task)
+    tasks = tasks.filter(item => item !== task);
 
-    console.log(tasks)
-    let done = this.state.done.concat(task)
-    console.log(done)
+    console.log(tasks);
+    task.done = true;
+    let done = this.state.done.concat(task);
+    console.log(done);
     this.setState({ list: tasks,
-                    done: done })
+                    done: done});
     //Save lists to local storage:
-    this.saveToLocalStorage(tasks);
+    this.saveToLocalStorage(tasks, done);
   }
 
-  saveToLocalStorage(item) {
-    localStorage.setItem('getTasks', JSON.stringify(item));
+  //Remove task from done-list back to list of current tasks:
+  markRedo (task) {
+    task.done = false;
+    let tasks = this.state.list.concat(task);
+    //console.log(tasks);
+    let done = this.state.done.filter(i => i !== task);
+    //console.log(done);
+    this.setState({ list: tasks,
+                    done: done});
+    //Save lists to local storage:
+    this.saveToLocalStorage(tasks, done);
+  }
+
+  saveToLocalStorage(list, done) {
+    localStorage.setItem('getTasks', JSON.stringify(list));
+    localStorage.setItem('getDone', JSON.stringify(done))
   }
 
   componentDidMount(){
     let tasks = JSON.parse(localStorage.getItem('getTasks'))
-    console.log(tasks)
-    if (tasks != null) {
-      this.setState({list: tasks})
+    let done = JSON.parse(localStorage.getItem('getDone'))
+    console.log(tasks);
+    if (tasks) {
+      this.setState({ list: tasks });
+    } 
+    if (done) {
+      this.setState({ done: done });
     }
   }
 
+  filterList(f) {
+    //Filter the list according to the list above:
+    console.log('setting filter to ', f)
+    this.setState({ filter: f });
+  }
+
   render() {
-    let task = {
-      repeat: 0,
-      text: "",
-      done: false
+    console.log(this.state.done)
+    //filter the list of shown entries by type:
+    let tasks = this.state.list;
+    if (this.state.filter === 'Done') {
+      tasks = this.state.done;
+      console.log(tasks)
+      console.log(tasks.length)
+    } else if (this.state.filter !== "All") {
+      tasks = tasks.filter(i => i.type === this.state.filter);
     }
 
     let form = (
@@ -82,9 +118,10 @@ class TaskList extends React.Component {
           <div>
             <label htmlFor="task">
               Description
+              <br />
             </label>
-            <input id="desc" type="text" name="desc" required/>
-          </div>
+            <textarea id="desc" name="desc" rows="5" cols="40"></textarea>
+            </div>
           <div>
             <label htmlFor="type">
               Type
@@ -100,19 +137,27 @@ class TaskList extends React.Component {
         </form>
       </div>
     )
-
+    
     return(
       <div>
-        {this.state.list.map(p => 
+        <div className="header">
+          <ul>
+            <li onClick={() => this.filterList('All')}>All</li>
+            <li onClick={() => this.filterList('Daily')}>Daily</li>
+            <li onClick={() => this.filterList('Weekly')}>Weekly</li>
+            <li onClick={() => this.filterList('Monthly')}>Monthly</li>
+            <li onClick={() => this.filterList('Once')}>Once</li>
+            <li onClick={() => this.filterList('Done')}>Done</li>
+          </ul>
+        </div>
+        {!tasks.length&&<span>No {this.state.filter} tasks found.</span>}
+        {tasks.map(p => 
           <div key={p.task}>
-            <Task task={p} markDone={this.markDone}/>
+            <Task task={p} markDone={this.markDone} markRedo={this.markRedo}/>
             <div className="divider"></div>
           </div>
         )}
         {form}
-        <br />
-        <br />
-        {this.state.done.toString()}
       </div>
     )
   }

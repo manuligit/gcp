@@ -3,11 +3,40 @@
     box-sizing: border-box;
 }
 
+:root {
+    --main-bg-color: #7b9095;
+    --secondary-bg-color: #343d40;
+    --main-font: white;
+}
+
 body {
-    background-color: #7b9095;
-    color: white;
+    background-color: var(--main-bg-color);
+    color: var(--main-font);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+li {
+    display: inline-block;
+    width: 100%;
+    list-style: outside none none;
+    font-size: 1.2em;
+    padding: 0.5em;
+    border-right: solid 1px var(--main-font);
+}
+
+li:last-child {
+    border-right: none;
+}
+
+ul li:hover {
+    background-color: var(--secondary-bg-color);
+}
+
 
 .task {
     display: flex;
@@ -17,48 +46,45 @@ body {
 
     padding: 1em;
     margin: 0.3em;
-    border: thick double white;
+    border: thick double var(--main-font);
 }
 
 
 .taskText {
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
 
     width: 90%
 }
 
-.taskText .row .name {
-    flex: 3;
+.taskText>* {
+    flex: 1 100px;
 }
 
-.taskText .row .type {
-    flex: 1;
+.taskText :last-child {
+    flex-basis: 100%;
 }
 
-.taskText .desc {
-    flex: 1;
-}
-
-.task .done {
-    background: red;
-    border: thick double white;
+.task .check {
+    background: var(--main-bg-color);
+    border: thick double var(--main-font);
     width: 65px;
     font-size: 2rem;
     position: relative;
+    max-height: 65px;
+    max-width: 65px;
 }
 
-.task .done div {
+.task .check div {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
 }
 
-.task .done:hover {
-    background: #7b9095;
+.task .check:hover {
+    background: var(--secondary-bg-color);
 } 
 
 input {
@@ -69,17 +95,3 @@ input {
     height: 3px;
     background-color: rgb(255,255,255,1);
 }
-
-.task::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-@media only screen and (min-width: 300px) {
-    .task .done {
-      width: 65px;
-      background: pink;
-    }
-  }
-  

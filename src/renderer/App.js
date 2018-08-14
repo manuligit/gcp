@@ -5,10 +5,8 @@ import './App.css'
 class App extends Component {
 
   render() {
-
     return (
       <div>
-        Terve tuloa tämän sovelluksen koti sivuille!! TERVE TULLOO VAAN KAEKKI!!!
         <TaskList />
       </div>
     )
