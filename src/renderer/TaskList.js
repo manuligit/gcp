@@ -11,6 +11,7 @@ class TaskList extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.markDone = this.markDone.bind(this);
     this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
   }
 
@@ -21,10 +22,6 @@ class TaskList extends React.Component {
 
   addTask (event) {
     event.preventDefault();
-    // //console.log(event.target.task.value)
-    // console.log( event.target.task.value)
-    // console.log(event.target.desc.value)
-    // console.log(this.state.type)
     let item = {
       task: event.target.task.value,
       desc: event.target.desc.value,
@@ -35,9 +32,22 @@ class TaskList extends React.Component {
     let list = this.state.list.concat(item)
 
     this.setState({ list: list })
-    console.log(list)
-
+    //console.log(list)
+    //Add list to local storage to preserve after refreshing:
     this.saveToLocalStorage(list);
+  }
+
+  markDone (task) {
+    let tasks = this.state.list.slice();
+    tasks = tasks.filter(item => item !== task)
+
+    console.log(tasks)
+    let done = this.state.done.concat(task)
+    console.log(done)
+    this.setState({ list: tasks,
+                    done: done })
+    //Save lists to local storage:
+    this.saveToLocalStorage(tasks);
   }
 
   saveToLocalStorage(item) {
@@ -95,11 +105,14 @@ class TaskList extends React.Component {
       <div>
         {this.state.list.map(p => 
           <div key={p.task}>
-            <Task task={p}/>
+            <Task task={p} markDone={this.markDone}/>
             <div className="divider"></div>
           </div>
         )}
         {form}
+        <br />
+        <br />
+        {this.state.done.toString()}
       </div>
     )
   }

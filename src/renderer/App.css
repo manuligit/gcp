@@ -1,14 +1,65 @@
 * {
+    border: solid 1px green;
+    box-sizing: border-box;
+}
+
+body {
     background-color: #7b9095;
     color: white;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .task {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+
     padding: 1em;
     margin: 0.3em;
     border: thick double white;
 }
+
+
+.taskText {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+
+    width: 90%
+}
+
+.taskText .row .name {
+    flex: 3;
+}
+
+.taskText .row .type {
+    flex: 1;
+}
+
+.taskText .desc {
+    flex: 1;
+}
+
+.task .done {
+    background: red;
+    border: thick double white;
+    width: 65px;
+    font-size: 2rem;
+    position: relative;
+}
+
+.task .done div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.task .done:hover {
+    background: #7b9095;
+} 
 
 input {
     margin-bottom: 1em;
@@ -18,3 +69,17 @@ input {
     height: 3px;
     background-color: rgb(255,255,255,1);
 }
+
+.task::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+@media only screen and (min-width: 300px) {
+    .task .done {
+      width: 65px;
+      background: pink;
+    }
+  }
+  
