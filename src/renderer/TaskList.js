@@ -1,5 +1,6 @@
 import React from 'react';
 import Task from './Task';
+import TaskForm from './TaskForm'
 
 class TaskList extends React.Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class TaskList extends React.Component {
       list: [{task:'Sample', desc:'Sample text', type:'Once', done: false}],
       done: [],
       type: 'Once',
-      filter: 'All'
+      filter: 'All',
+      names: [],
+      formItems: [],
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,15 +27,15 @@ class TaskList extends React.Component {
     this.setState({type: event.target.value});
   }
 
-  addTask (event) {
-    event.preventDefault();
-    let item = {
-      task: event.target.task.value,
-      desc: event.target.desc.value,
-      type: this.state.type,
-      done: false
-    }
-
+  // addTask (event) {
+  //   event.preventDefault();
+  //   let item = {
+  //     task: event.target.task.value,
+  //     desc: event.target.desc.value,
+  //     type: this.state.type,
+  //     done: false
+  //   }
+    addTask (item) {
     let list = this.state.list.concat(item);
     
     this.setState({ list: list });
@@ -81,6 +84,7 @@ class TaskList extends React.Component {
     console.log(tasks);
     if (tasks) {
       this.setState({ list: tasks });
+    
     } 
     if (done) {
       this.setState({ done: done });
@@ -121,7 +125,7 @@ class TaskList extends React.Component {
               <br />
             </label>
             <textarea id="desc" name="desc" rows="5" cols="40"></textarea>
-            </div>
+          </div>
           <div>
             <label htmlFor="type">
               Type
@@ -132,8 +136,14 @@ class TaskList extends React.Component {
               <option value="Weekly">Weekly</option> 
               <option value="Monthly" >Monthly</option> 
             </select>
-            <input type="submit" value="Submit" />
           </div>
+          <div>
+            <label htmlFor="items">
+            Add an item
+            </label>
+
+          </div>
+          <input type="submit" value="Submit" />
         </form>
       </div>
     )
@@ -157,7 +167,7 @@ class TaskList extends React.Component {
             <div className="divider"></div>
           </div>
         )}
-        {form}
+        <TaskForm addTask={this.addTask}/>
       </div>
     )
   }

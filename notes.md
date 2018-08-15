@@ -12,7 +12,7 @@ task:
 -mats (if any)
 -repeat (daily, montly, weekly, once)
 -link (if any)
-
+-timestamp when task was added
 
 -journey drop duration showing in the ui?
 
