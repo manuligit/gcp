@@ -2,5 +2,5 @@
 dist/
 node_modules/
 thumbs.db
-notes.node_modules
 item_list.json
+notes.md
