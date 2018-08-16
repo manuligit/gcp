@@ -5,7 +5,7 @@ class TaskForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
+      items: [{name:'asdf', qty:3 },{name:'bbb', qty:122 }],
       names: [],
       type: 'Once',
       itemName: '',
@@ -58,7 +58,7 @@ class TaskForm extends React.Component {
 
     let item = {
       name: n,
-      quality: q
+      qty: q
     }
 
     let items = this.state.items.concat(item);
@@ -70,29 +70,27 @@ class TaskForm extends React.Component {
     })
   }
 
+
+  //this.changeItemList(e,x,i,'qty')
   changeItemList(e,x,i,type) {
+    //debugger;
     console.log('changeitemlist', x,i)
     let item = this.state.items[i];
+
+    console.log(type) 
     console.log(e.target.value)
 
-    if (type==='q') {
-
-    } else if (type==='n') {
-      item = {...item, itemName: e.target.value}
-      let items = this.state.items;
-      //replace item and save the list to state
-      items[i] = item;
-
-      this.setState({ items: items })
-    }
-
+    item = { ...item, [type]: e.target.value }
+    let items = this.state.items;
+    items[i] = item;
+    this.setState({ items: items })
   }
 
   render() {
     let inputrow = (
       <div className="inputrow">
-        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} placeholder={this.state.itemQty}/>
-        <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} placeholder={this.state.itemName}/>
+        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={this.state.itemQty} placeholder="Amount"/>
+        <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} value={this.state.itemName} placeholder="Item"/>
         <button onClick={this.addItem}> + </button>
       </div>
     )
@@ -101,8 +99,8 @@ class TaskForm extends React.Component {
       <div>
         {this.state.items.map((x,i) => 
           <div key={i}>
-              <input onChange={e => this.changeItemList(e,x,i,'q')} value={x.quality}/>
-              <input onChange={e => this.changeItemList(e,x,i,'n')} value={x.name}/>
+              <input type="number" onChange={e => this.changeItemList(e,x,i,'qty')}  defaultValue={x.qty}/>
+              <input type="text" onChange={e => this.changeItemList(e,x,i,'name')} defaultValue={x.name}/>
           </div>
       )}
       </div>
@@ -138,7 +136,7 @@ class TaskForm extends React.Component {
           </div>
           <div>
             <label htmlFor="items">
-            Add an item
+            Add an item list
             </label>
             {itemsrows}
             {inputrow}
