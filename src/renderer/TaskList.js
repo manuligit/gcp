@@ -1,12 +1,12 @@
 import React from 'react';
 import Task from './Task';
-import TaskForm from './TaskForm'
+import TaskForm from './TaskForm';
 
 class TaskList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{task:'Sample', desc:'Sample text', type:'Once', done: false}],
+      list: [{ task: 'Sample', desc: 'Sample text', type: 'Once', done: false }],
       done: [],
       type: 'Once',
       filter: 'All',
@@ -20,33 +20,39 @@ class TaskList extends React.Component {
     this.filterList = this.filterList.bind(this);
     this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
     this.markRedo = this.markRedo.bind(this);
+    // this.showComponent = this.showComponent.bind(this);
   }
+
+  componentDidMount() {
+    const tasks = JSON.parse(localStorage.getItem('getTasks'));
+    const done = JSON.parse(localStorage.getItem('getDone'));
+    console.log(tasks);
+    if (tasks) {
+      this.setState({ list: tasks });
+    }
+    if (done) {
+      this.setState({ done });
+    }
+  }
+
 
   handleChange(event) {
     console.log(event.target.value);
-    this.setState({type: event.target.value});
+    this.setState({ type: event.target.value });
   }
 
-  // addTask (event) {
-  //   event.preventDefault();
-  //   let item = {
-  //     task: event.target.task.value,
-  //     desc: event.target.desc.value,
-  //     type: this.state.type,
-  //     done: false
-  //   }
-    addTask (item) {
-    let list = this.state.list.concat(item);
-    
-    this.setState({ list: list });
-    //console.log(list)
-    //Add list to local storage to preserve after refreshing:
+  addTask(item) {
+    const list = this.state.list.concat(item);
+    const x = [...this.state.list, item]
+    this.setState({ list });
+    // console.log(list)
+    // Add list to local storage to preserve after refreshing:
     this.saveToLocalStorage(list, this.state.done);
   }
 
-  //Mark task as done and move it to the list of done tasks:
-  markDone (task) {
-    //console.log('markDone disabled')
+  // Mark task as done and move it to the list of done tasks:
+  markDone(task) {
+    // console.log('markDone disabled')
     let tasks = this.state.list.slice();
     tasks = tasks.filter(item => item !== task);
 
@@ -54,22 +60,26 @@ class TaskList extends React.Component {
     task.done = true;
     let done = this.state.done.concat(task);
     console.log(done);
-    this.setState({ list: tasks,
-                    done: done});
-    //Save lists to local storage:
+    this.setState({
+      list: tasks,
+      done,
+    });
+    // Save lists to local storage:
     this.saveToLocalStorage(tasks, done);
   }
 
-  //Remove task from done-list back to list of current tasks:
+  // Remove task from done-list back to list of current tasks:
   markRedo (task) {
     task.done = false;
     let tasks = this.state.list.concat(task);
     //console.log(tasks);
     let done = this.state.done.filter(i => i !== task);
     //console.log(done);
-    this.setState({ list: tasks,
-                    done: done});
-    //Save lists to local storage:
+    this.setState({
+      list: tasks,
+      done,
+    });
+    // Save lists to local storage:
     this.saveToLocalStorage(tasks, done);
   }
 
@@ -78,24 +88,15 @@ class TaskList extends React.Component {
     localStorage.setItem('getDone', JSON.stringify(done))
   }
 
-  componentDidMount(){
-    let tasks = JSON.parse(localStorage.getItem('getTasks'))
-    let done = JSON.parse(localStorage.getItem('getDone'))
-    console.log(tasks);
-    if (tasks) {
-      this.setState({ list: tasks });
-    
-    } 
-    if (done) {
-      this.setState({ done: done });
-    }
-  }
-
   filterList(f) {
-    //Filter the list according to the list above:
+    // Filter the list according to the list above:
     console.log('setting filter to ', f)
     this.setState({ filter: f });
   }
+
+  // showComponent() {
+
+  // }
 
   render() {
     console.log(this.state.done)
@@ -109,46 +110,7 @@ class TaskList extends React.Component {
       tasks = tasks.filter(i => i.type === this.state.filter);
     }
 
-    let form = (
-      <div className="form">
-        <h3> Add a new task </h3>
-        <form onSubmit={this.addTask}>
-          <div>
-            <label htmlFor="task">
-              Name
-            </label>
-            <input id="task" type="text" name="task" required/>
-          </div>
-          <div>
-            <label htmlFor="task">
-              Description
-              <br />
-            </label>
-            <textarea id="desc" name="desc" rows="5" cols="40"></textarea>
-          </div>
-          <div>
-            <label htmlFor="type">
-              Type
-            </label>
-            <select value={this.state.type} onChange={this.handleChange} required>
-              <option value="Once">Once</option> 
-              <option value="Daily">Daily</option> 
-              <option value="Weekly">Weekly</option> 
-              <option value="Monthly" >Monthly</option> 
-            </select>
-          </div>
-          <div>
-            <label htmlFor="items">
-            Add an item
-            </label>
-
-          </div>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    )
-    
-    return(
+    return (
       <div>
         <div className="header">
           <ul>
@@ -167,6 +129,9 @@ class TaskList extends React.Component {
             <div className="divider"></div>
           </div>
         )}
+
+        <h3> Add a new task </h3>
+        <button className="addButton">+</button>
         <TaskForm addTask={this.addTask}/>
       </div>
     )

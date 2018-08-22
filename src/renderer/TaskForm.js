@@ -108,7 +108,6 @@ class TaskForm extends React.Component {
 
     let form = (
       <div className="form">
-        <h3> Add a new task </h3>
         <form onSubmit={this.createTask}>
           <div>
             <label htmlFor="task">

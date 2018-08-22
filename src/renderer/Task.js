@@ -12,34 +12,32 @@ class Task extends React.Component {
   }
 
   render() {
-    let basic = (
+    const basic = (
       <div className="taskText">
-          <div className="name"> {this.props.task.task} </div>
-          <div className="type">{this.props.task.type}</div>
-          <div className="desc"> {this.props.task.desc}</div>
+        <div className="name"> {this.props.task.task} </div>
+        <div className="type">{this.props.task.type}</div>
+        <div className="desc"> {this.props.task.desc}</div>
       </div>
-    )
+    );
 
     if (!this.props.task.done) {
-      return(
+      return (
         <div className="task" key={this.props.task.task}>
           {basic}
           <div className="check">
             <div onClick={(e) => this.props.markDone(this.props.task)}>&#10003;</div>
           </div>
         </div>
-      )
-    } else {
-      console.log('aaaa')
-      return (
-        <div className="task" key={this.props.task.task}>
-          {basic}
-          <div className="check">
-            <div onClick={(e) => this.props.markRedo(this.props.task)}>&#x21BB;</div>
-          </div>
-        </div>
-      )
+      );
     }
+    return (
+      <div className="task" key={this.props.task.task}>
+        {basic}
+        <div className="check">
+          <div onClick={(e) => this.props.markRedo(this.props.task)}>&#x21BB;</div>
+        </div>
+      </div>
+    );
   }
 }
 export default Task;
