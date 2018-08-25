@@ -1,43 +1,40 @@
-import React from 'react'
+import React from 'react';
 
-class Task extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      done: false,
-      repeat: 0,
-      desc: ""
-    }
-  }
-
-  render() {
-    const basic = (
-      <div className="taskText">
-        <div className="name"> {this.props.task.task} </div>
-        <div className="type">{this.props.task.type}</div>
-        <div className="desc"> {this.props.task.desc}</div>
+const Task = ({ task }) => {
+  const basic = (
+    <div className="taskText">
+      <div className="name">
+        {task.task}
       </div>
-    );
+      <div className="type">
+        {task.type}
+      </div>
+      <div className="desc">
+        {task.desc}
+      </div>
+    </div>
+  );
 
-    if (!this.props.task.done) {
-      return (
-        <div className="task" key={this.props.task.task}>
-          {basic}
-          <div className="check">
-            <div onClick={(e) => this.props.markDone(this.props.task)}>&#10003;</div>
-          </div>
-        </div>
-      );
-    }
+  if (!task.done) {
     return (
-      <div className="task" key={this.props.task.task}>
+      <div className="task" key={task.task}>
         {basic}
         <div className="check">
-          <div onClick={(e) => this.props.markRedo(this.props.task)}>&#x21BB;</div>
+          <div onClick={(e) => task.markDone(task.task)}>&#10003;</div>
         </div>
       </div>
     );
   }
-}
+  console.log(task.markDone)
+  return (
+    <div className="task" key={task.task}>
+      {basic}
+      <div className="check">
+        <div onClick={(e) => task.markRedo(task.task)}>&#x21BB;</div>
+      </div>
+    </div>
+  );
+};
+
+
 export default Task;

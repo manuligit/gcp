@@ -10,6 +10,12 @@
       }
     },
     "rules": {
-      "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }]
+      "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
+      "react/jsx-one-expression-per-line": "off",
+      "no-console": 1
+    },
+    "env": {
+      "browser": true,
+      "node": true
     }
   }

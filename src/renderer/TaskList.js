@@ -6,13 +6,14 @@ class TaskList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{ task: 'Sample', desc: 'Sample text', type: 'Once', done: false }],
+      list: [{
+        task: 'Sample', desc: 'Sample text', type: 'Once', done: false,
+      }],
       done: [],
       type: 'Once',
       filter: 'All',
-      names: [],
       formItems: [],
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.addTask = this.addTask.bind(this);
@@ -69,12 +70,12 @@ class TaskList extends React.Component {
   }
 
   // Remove task from done-list back to list of current tasks:
-  markRedo (task) {
+  markRedo(task) {
     task.done = false;
     let tasks = this.state.list.concat(task);
-    //console.log(tasks);
+    // console.log(tasks);
     let done = this.state.done.filter(i => i !== task);
-    //console.log(done);
+    // console.log(done);
     this.setState({
       list: tasks,
       done,
@@ -84,8 +85,8 @@ class TaskList extends React.Component {
   }
 
   saveToLocalStorage(list, done) {
-    localStorage.setItem('getTasks', JSON.stringify(list));
-    localStorage.setItem('getDone', JSON.stringify(done))
+    this.localStorage.setItem('getTasks', JSON.stringify(list));
+    this.localStorage.setItem('getDone', JSON.stringify(done));
   }
 
   filterList(f) {
@@ -100,12 +101,12 @@ class TaskList extends React.Component {
 
   render() {
     console.log(this.state.done)
-    //filter the list of shown entries by type:
+    // filter the list of shown entries by type:
     let tasks = this.state.list;
     if (this.state.filter === 'Done') {
       tasks = this.state.done;
-      console.log(tasks)
-      console.log(tasks.length)
+      console.log(tasks);
+      console.log(tasks.length);
     } else if (this.state.filter !== "All") {
       tasks = tasks.filter(i => i.type === this.state.filter);
     }
@@ -122,19 +123,18 @@ class TaskList extends React.Component {
             <li onClick={() => this.filterList('Done')}>Done</li>
           </ul>
         </div>
-        {!tasks.length&&<span>No {this.state.filter} tasks found.</span>}
-        {tasks.map(p => 
+        {!tasks.length && <span>No {this.state.filter} tasks found.</span>}
+        {tasks.map(p =>
           <div key={p.task}>
             <Task task={p} markDone={this.markDone} markRedo={this.markRedo}/>
-            <div className="divider"></div>
           </div>
         )}
 
         <h3> Add a new task </h3>
-        <button className="addButton">+</button>
-        <TaskForm addTask={this.addTask}/>
+        <button type="button" className="addButton">+</button>
+        <TaskForm addTask={this.addTask} />
       </div>
-    )
+    );
   }
 }
 
