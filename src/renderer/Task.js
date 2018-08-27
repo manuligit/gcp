@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Task = ({ task }) => {
+const Task = ({ task, markDone, markRedo }) => {
   const basic = (
     <div className="taskText">
       <div className="name">
@@ -20,17 +20,17 @@ const Task = ({ task }) => {
       <div className="task" key={task.task}>
         {basic}
         <div className="check">
-          <div onClick={(e) => task.markDone(task.task)}>&#10003;</div>
+          <div onClick={(e) => markDone(task)}>&#10003;</div>
         </div>
       </div>
     );
   }
-  console.log(task.markDone)
+  console.log(task.markDone);
   return (
     <div className="task" key={task.task}>
       {basic}
       <div className="check">
-        <div onClick={(e) => task.markRedo(task.task)}>&#x21BB;</div>
+        <div onClick={(e) => markRedo(task)}>&#x21BB;</div>
       </div>
     </div>
   );

@@ -44,7 +44,6 @@ class TaskList extends React.Component {
 
   addTask(item) {
     const list = this.state.list.concat(item);
-    const x = [...this.state.list, item]
     this.setState({ list });
     // console.log(list)
     // Add list to local storage to preserve after refreshing:
@@ -74,7 +73,7 @@ class TaskList extends React.Component {
     task.done = false;
     let tasks = this.state.list.concat(task);
     // console.log(tasks);
-    let done = this.state.done.filter(i => i !== task);
+    const done = this.state.done.filter(i => i !== task);
     // console.log(done);
     this.setState({
       list: tasks,
@@ -85,13 +84,13 @@ class TaskList extends React.Component {
   }
 
   saveToLocalStorage(list, done) {
-    this.localStorage.setItem('getTasks', JSON.stringify(list));
-    this.localStorage.setItem('getDone', JSON.stringify(done));
+    window.localStorage.setItem('getTasks', JSON.stringify(list));
+    window.localStorage.setItem('getDone', JSON.stringify(done));
   }
 
   filterList(f) {
     // Filter the list according to the list above:
-    console.log('setting filter to ', f)
+    console.log('setting filter to ', f);
     this.setState({ filter: f });
   }
 
@@ -100,14 +99,14 @@ class TaskList extends React.Component {
   // }
 
   render() {
-    console.log(this.state.done)
+    console.log(this.state.done);
     // filter the list of shown entries by type:
     let tasks = this.state.list;
     if (this.state.filter === 'Done') {
       tasks = this.state.done;
       console.log(tasks);
       console.log(tasks.length);
-    } else if (this.state.filter !== "All") {
+    } else if (this.state.filter !== 'All') {
       tasks = tasks.filter(i => i.type === this.state.filter);
     }
 
@@ -127,8 +126,7 @@ class TaskList extends React.Component {
         {tasks.map(p =>
           <div key={p.task}>
             <Task task={p} markDone={this.markDone} markRedo={this.markRedo}/>
-          </div>
-        )}
+          </div>)}
 
         <h3> Add a new task </h3>
         <button type="button" className="addButton">+</button>
