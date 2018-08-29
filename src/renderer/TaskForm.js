@@ -5,11 +5,13 @@ class TaskForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [{ name: 'asdf', qty: 3 }, { name: 'bbb', qty: 122 }],
+      items: [],
       names: [],
       type: 'Once',
       itemName: '',
       itemQty: 0,
+      task: '',
+      desc: '',
     };
 
     this.createTask = this.createTask.bind(this);
@@ -38,18 +40,27 @@ class TaskForm extends React.Component {
   }
 
   createTask(event) {
+    console.log('createtask');
     event.preventDefault();
     let item = {
-      task: event.target.task.value,
-      desc: event.target.desc.value,
+      task: this.state.task,
+      desc: this.state.desc,
       type: this.state.type,
       done: false,
     };
+
+    this.setState({
+      task: '',
+      desc: '',
+      type: 'Once',
+      items: [],
+    });
 
     if (this.state.items.length > 0) {
       item = { ...item, items: this.state.items };
     }
     this.props.addTask(item);
+    //null state and fields with setstate
   }
 
   addItem() {
@@ -86,38 +97,39 @@ class TaskForm extends React.Component {
   render() {
     const inputrow = (
       <div className="inputrow">
-        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={this.state.itemQty} placeholder="Amount"/>
         <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} value={this.state.itemName} placeholder="Item"/>
-        <button onClick={this.addItem}> + </button>
+        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={this.state.itemQty} placeholder="Amount"/>
+        <br />
+        <button onClick={this.addItem}> Add new row </button>
       </div>
     );
 
     const itemsrows = (
       <div>
-        {this.state.items.map((x, i) =>
+        {this.state.items.map((x, i) => (
           <div key={i}>
             <input type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} />
             <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} defaultValue={x.name} />
-          </div>
+          </div>),
         )}
       </div>
     );
 
     const form = (
       <div className="form">
-        <form onSubmit={this.createTask}>
+        <form>
           <div>
             <label htmlFor="task">
               Name
             </label>
-            <input id="task" type="text" name="task" required/>
+            <input id="task" type="text" name="task" onChange={this.handleChange} required />
           </div>
           <div>
             <label htmlFor="task">
               Description
               <br />
             </label>
-            <textarea id="desc" name="desc" rows="5" cols="40"></textarea>
+            <textarea id="desc" name="desc" rows="5" cols="40" onChange={this.handleChange} />
           </div>
           <div>
             <label htmlFor="type">
@@ -137,7 +149,7 @@ class TaskForm extends React.Component {
             {itemsrows}
             {inputrow}
           </div>
-          <input type="submit" value="Submit" />
+          <input onClick={this.createTask} type="submit" value="Submit" />
         </form>
       </div>
     );
