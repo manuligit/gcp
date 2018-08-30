@@ -21,7 +21,6 @@ const Task = ({ task, markDone, markRedo }) => {
     </div>
   );
 
-
   if (!task.done) {
     return (
       <div>

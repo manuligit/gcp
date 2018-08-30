@@ -43,22 +43,24 @@ class TaskList extends React.Component {
   }
 
   addTask(item) {
-    const list = this.state.list.concat(item);
+    let { list, done } = this.state;
+    list = list.concat(item);
     this.setState({ list });
     // console.log(list)
     // Add list to local storage to preserve after refreshing:
-    this.saveToLocalStorage(list, this.state.done);
+    this.saveToLocalStorage(list, done);
   }
 
   // Mark task as done and move it to the list of done tasks:
   markDone(task) {
     // console.log('markDone disabled')
-    let tasks = this.state.list.slice();
-    tasks = tasks.filter(item => item !== task);
+    let { list, done } = this.state;
+
+    const tasks = list.filter(item => item !== task);
 
     console.log(tasks);
-    task.done = true;
-    let done = this.state.done.concat(task);
+    const task2 = { ...task, done: true };
+    done = done.concat(task2);
     console.log(done);
     this.setState({
       list: tasks,
@@ -70,10 +72,12 @@ class TaskList extends React.Component {
 
   // Remove task from done-list back to list of current tasks:
   markRedo(task) {
-    task.done = false;
-    let tasks = this.state.list.concat(task);
+    let { list, done } = this.state;
+    const task2 = { ...task, done: false };
+
+    const tasks = list.concat(task2);
     // console.log(tasks);
-    const done = this.state.done.filter(i => i !== task);
+    done = done.filter(i => i !== task);
     // console.log(done);
     this.setState({
       list: tasks,
@@ -94,20 +98,18 @@ class TaskList extends React.Component {
     this.setState({ filter: f });
   }
 
-  // showComponent() {
-
-  // }
-
   render() {
-    console.log(this.state.done);
+    const { list, done, filter } = this.state;
+
+    console.log(done);
     // filter the list of shown entries by type:
-    let tasks = this.state.list;
-    if (this.state.filter === 'Done') {
-      tasks = this.state.done;
+    let tasks = list;
+    if (filter === 'Done') {
+      tasks = done;
       console.log(tasks);
       console.log(tasks.length);
-    } else if (this.state.filter !== 'All') {
-      tasks = tasks.filter(i => i.type === this.state.filter);
+    } else if (filter !== 'All') {
+      tasks = tasks.filter(i => i.type === filter);
     }
 
     return (
@@ -122,11 +124,11 @@ class TaskList extends React.Component {
             <li onClick={() => this.filterList('Done')}>Done</li>
           </ul>
         </div>
-        {!tasks.length && <span>No {this.state.filter} tasks found.</span>}
-        {tasks.map(p =>
+        {!tasks.length && <span>No {filter} tasks found.</span>}
+        {tasks.map(p => (
           <div key={p.task}>
             <Task task={p} markDone={this.markDone} markRedo={this.markRedo}/>
-          </div>)}
+          </div>)) }
 
         <h3> Add a new task </h3>
         <button type="button" className="addButton">+</button>

@@ -29,23 +29,25 @@ class TaskForm extends React.Component {
   }
 
   handleChange(event) {
-    // console.log(event.target.value);
-    // console.log(event.target.name);
-    const value = event.target.value;
-    const name = event.target.name;
-    // let target = event.target.value;
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { value, name } = event.target;
+
     console.log('inputform handleChange', name, value);
     this.setState({ [name]: value });
   }
 
   createTask(event) {
+    const {
+      task, desc, type, items = [],
+    } = this.state;
+
+    const { addTask } = this.props;
+
     console.log('createtask');
     event.preventDefault();
     let item = {
-      task: this.state.task,
-      desc: this.state.desc,
-      type: this.state.type,
+      task,
+      desc,
+      type,
       done: false,
     };
 
@@ -56,20 +58,23 @@ class TaskForm extends React.Component {
       items: [],
     });
 
-    if (this.state.items.length > 0) {
-      item = { ...item, items: this.state.items };
+    if (items.length > 0) {
+      item = { ...item, items };
     }
-    this.props.addTask(item);
-    //null state and fields with setstate
+
+    addTask(item);
   }
 
   addItem() {
+    const { itemName, itemQty } = this.state;
+    let { items } = this.state;
+
     const item = {
-      name: this.state.itemName,
-      qty: this.state.itemQty,
+      name: itemName,
+      qty: itemQty,
     };
 
-    const items = this.state.items.concat(item);
+    items = items.concat(item);
 
     this.setState({
       items,
@@ -78,40 +83,41 @@ class TaskForm extends React.Component {
     });
   }
 
-
   // this.changeItemList(e,x,i,'qty')
   changeItemList(e, x, i, type) {
     // debugger;
+    const { items } = this.state;
+
     console.log('changeitemlist', x, i);
-    let item = this.state.items[i];
+    let item = items[i];
 
     console.log(type);
     console.log(e.target.value);
 
     item = { ...item, [type]: e.target.value };
-    let items = this.state.items;
     items[i] = item;
     this.setState({ items });
   }
 
   render() {
+    const { itemName, itemQty, items, type } = this.state;
+
     const inputrow = (
       <div className="inputrow">
-        <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} value={this.state.itemName} placeholder="Item"/>
-        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={this.state.itemQty} placeholder="Amount"/>
+        <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} value={itemName} placeholder="Item" />
+        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={itemQty} placeholder="Amount" />
         <br />
-        <button onClick={this.addItem}> Add new row </button>
+        <button onClick={this.addItem} type="button"> Add new row </button>
       </div>
     );
 
     const itemsrows = (
       <div>
-        {this.state.items.map((x, i) => (
+        {items.map((x, i) => (
           <div key={i}>
             <input type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} />
             <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} defaultValue={x.name} />
-          </div>),
-        )}
+          </div>))}
       </div>
     );
 
@@ -125,17 +131,17 @@ class TaskForm extends React.Component {
             <input id="task" type="text" name="task" onChange={this.handleChange} required />
           </div>
           <div>
-            <label htmlFor="task">
+            <label htmlFor="desc">
               Description
-              <br />
             </label>
+            <br />
             <textarea id="desc" name="desc" rows="5" cols="40" onChange={this.handleChange} />
           </div>
           <div>
             <label htmlFor="type">
               Type
             </label>
-            <select name="type" value={this.state.type} onChange={this.handleChange} required>
+            <select name="type" value={type} onChange={this.handleChange} required>
               <option value="Once">Once</option>
               <option value="Daily">Daily</option>
               <option value="Weekly">Weekly</option>
