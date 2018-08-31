@@ -58,10 +58,11 @@ class TaskList extends React.Component {
 
     const tasks = list.filter(item => item !== task);
 
-    console.log(tasks);
     const task2 = { ...task, done: true };
     done = done.concat(task2);
-    console.log(done);
+
+    console.log({ tasks });
+    console.log({ done });
     this.setState({
       list: tasks,
       done,
@@ -133,6 +134,8 @@ class TaskList extends React.Component {
         <h3> Add a new task </h3>
         <button type="button" className="addButton">+</button>
         <TaskForm addTask={this.addTask} />
+        <button type="button" onClick={() => this.saveToLocalStorage([], [])}>RESET EVERYTHING</button>
+      
       </div>
     );
   }

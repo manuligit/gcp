@@ -100,7 +100,9 @@ class TaskForm extends React.Component {
   }
 
   render() {
-    const { itemName, itemQty, items, type } = this.state;
+    const {
+      itemName, itemQty, items, type,
+    } = this.state;
 
     const inputrow = (
       <div className="inputrow">
@@ -115,8 +117,8 @@ class TaskForm extends React.Component {
       <div>
         {items.map((x, i) => (
           <div key={i}>
-            <input type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} />
             <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} defaultValue={x.name} />
+            <input type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} />
           </div>))}
       </div>
     );

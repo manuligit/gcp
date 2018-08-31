@@ -81,14 +81,16 @@ ul li:hover {
     max-width: 65px;
 }
 
-.task .check div {
+.task .check .button {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
+    background: transparent;
+    border: none;
 }
 
-.task .check:hover {
+.task .check .button:hover {
     background: var(--secondary-bg-color);
 } 
 

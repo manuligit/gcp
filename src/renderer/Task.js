@@ -27,19 +27,19 @@ const Task = ({ task, markDone, markRedo }) => {
         <div className="task" key={task.task}>
           {basic}
           <div className="check">
-            <div onClick={(e) => markDone(task)}>&#10003;</div>
+            <button type="button" className="button" onClick={() => markDone(task)}>&#10003;</button>
           </div>
           {itemlist}
         </div>
       </div>
     );
   }
-  console.log(task.markDone);
+
   return (
     <div className="task" key={task.task}>
       {basic}
       <div className="check">
-        <div onClick={(e) => markRedo(task)}>&#x21BB;</div>
+        <button type="button" className="button" onClick={() => markRedo(task)}>&#x21BB;</button>
       </div>
     </div>
   );

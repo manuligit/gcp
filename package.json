@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.0.0-beta.56",
-    "electron": "2.0.0",
+    "electron": "^2.0.8",
     "electron-builder": "^20.11.1",
     "electron-webpack": "^2.0.1",
     "eslint-config-airbnb": "^17.1.0",
