@@ -39,14 +39,16 @@ ul li:hover {
 
 
 .task {
+    padding: 1em;
+    margin: 0.3em;
+    border: thick double var(--main-font);
+}
+
+.taskrow {
     display: flex;
     flex-direction: row;
     align-items: stretch;
     justify-content: space-between;
-
-    padding: 1em;
-    margin: 0.3em;
-    border: thick double var(--main-font);
 }
 
 
@@ -71,7 +73,7 @@ ul li:hover {
     flex-basis: 100%;
 }
 
-.task .check {
+.taskrow .check {
     background: var(--main-bg-color);
     border: thick double var(--main-font);
     width: 65px;
@@ -81,7 +83,7 @@ ul li:hover {
     max-width: 65px;
 }
 
-.task .check .button {
+.taskrow .check button {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -93,6 +95,10 @@ ul li:hover {
 .task .check .button:hover {
     background: var(--secondary-bg-color);
 } 
+
+.task .itemlist {
+    flex: 1;
+}
 
 .input {
     margin-bottom: 1em;
