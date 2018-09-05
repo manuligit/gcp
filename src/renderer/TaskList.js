@@ -13,6 +13,7 @@ class TaskList extends React.Component {
       type: 'Once',
       filter: 'All',
       formItems: [],
+      visible: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,7 +22,7 @@ class TaskList extends React.Component {
     this.filterList = this.filterList.bind(this);
     this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
     this.markRedo = this.markRedo.bind(this);
-    // this.showComponent = this.showComponent.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +41,15 @@ class TaskList extends React.Component {
   handleChange(event) {
     console.log(event.target.value);
     this.setState({ type: event.target.value });
+  }
+
+  toggle(event) {
+    console.log('toggle');
+    const { name } = event.target;
+    let value = this.state[name];
+
+    value = !value;
+    this.setState({ [name]: value });
   }
 
   addTask(item) {
@@ -100,15 +110,17 @@ class TaskList extends React.Component {
   }
 
   render() {
-    const { list, done, filter } = this.state;
+    const {
+      list, done, filter, visible,
+    } = this.state;
 
     console.log(done);
     // filter the list of shown entries by type:
     let tasks = list;
     if (filter === 'Done') {
       tasks = done;
-      console.log(tasks);
-      console.log(tasks.length);
+      // console.log(tasks);
+      // console.log(tasks.length);
     } else if (filter !== 'All') {
       tasks = tasks.filter(i => i.type === filter);
     }
@@ -126,16 +138,15 @@ class TaskList extends React.Component {
           </ul>
         </div>
         {!tasks.length && <span>No {filter} tasks found.</span>}
-        {tasks.map(p => (
-          <div key={p.task}>
+        {tasks.map((p, i) => (
+          <div key={i}>
             <Task task={p} markDone={this.markDone} markRedo={this.markRedo}/>
           </div>)) }
 
         <h3> Add a new task </h3>
-        <button type="button" className="addButton">+</button>
-        <TaskForm addTask={this.addTask} />
+        <button type="button" className="addButton" name="visible" onClick={this.toggle}>+</button>
+        { visible && <TaskForm addTask={this.addTask} />}
         <button type="button" onClick={() => this.saveToLocalStorage([], [])}>RESET EVERYTHING</button>
-      
       </div>
     );
   }

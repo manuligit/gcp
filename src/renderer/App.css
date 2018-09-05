@@ -74,8 +74,7 @@ ul li:hover {
 }
 
 .task .check {
-    background-color: red;
-    /* background: var(--main-bg-color); */
+    background: var(--main-bg-color);
     border: thick double var(--main-font);
     width: 65px;
     font-size: 2rem;
@@ -85,12 +84,17 @@ ul li:hover {
 }
 
 .task .check button {
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
     background: transparent;
     border: none;
+    color: var(--main-font);
 }
 
 .task .check .button:hover {

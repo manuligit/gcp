@@ -18,7 +18,8 @@ const Task = ({ task, markDone, markRedo }) => {
   const itemlist = (
     <div className="itemlist">
       {task.items && (task.items.length > 0)
-      && (<div className="items">
+      && (
+      <div className="items">
         <div className="itemlist"> Needed materials: </div>
         {task.items.map((p, i) => (
           <div key={i}> {p.name} <span>{p.qty} {p.req != null && `/ ${p.req}`} </span>
