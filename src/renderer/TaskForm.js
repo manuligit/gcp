@@ -13,12 +13,14 @@ class TaskForm extends React.Component {
       itemReq: 0,
       task: '',
       desc: '',
+      visible: false,
     };
 
     this.createTask = this.createTask.bind(this);
     this.addItem = this.addItem.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.changeItemList = this.changeItemList.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -29,8 +31,18 @@ class TaskForm extends React.Component {
     }
   }
 
+  toggle(event) {
+    console.log('toggle');
+    const { name } = event.target;
+    let value = this.state[name];
+
+    value = !value;
+    this.setState({ [name]: value });
+  }
+
   handleChange(event) {
     const { value, name } = event.target;
+    this.setState({ [name]: value });
 
     console.log('inputform handleChange', name, value);
     this.setState({ [name]: value });
@@ -104,7 +116,7 @@ class TaskForm extends React.Component {
 
   render() {
     const {
-      itemName, itemQty, items, type, itemReq,
+      itemName, itemQty, items, type, itemReq, visible,
     } = this.state;
 
     const inputrow = (
@@ -126,7 +138,6 @@ class TaskForm extends React.Component {
             {x.req
             && <input type="number" onChange={e => this.changeItemList(e, x, i, 'req')} defaultValue={x.req} />
             }
-
           </div>))}
       </div>
     );
@@ -162,8 +173,13 @@ class TaskForm extends React.Component {
             <label htmlFor="items">
             Add an item list
             </label>
-            {itemsrows}
-            {inputrow}
+            <button name="visible" type="button" onClick={this.toggle}>+</button>
+            {visible && (
+              <div>
+                {itemsrows}
+                {inputrow}
+              </div>)
+            }
           </div>
           <input onClick={this.createTask} type="submit" value="Submit" />
         </form>
