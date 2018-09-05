@@ -73,8 +73,9 @@ ul li:hover {
     flex-basis: 100%;
 }
 
-.taskrow .check {
-    background: var(--main-bg-color);
+.task .check {
+    background-color: red;
+    /* background: var(--main-bg-color); */
     border: thick double var(--main-font);
     width: 65px;
     font-size: 2rem;
@@ -83,7 +84,7 @@ ul li:hover {
     max-width: 65px;
 }
 
-.taskrow .check button {
+.task .check button {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -98,6 +99,10 @@ ul li:hover {
 
 .task .itemlist {
     flex: 1;
+}
+
+.task .itemlist span {
+    float: right;
 }
 
 .input {

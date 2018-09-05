@@ -10,6 +10,7 @@ class TaskForm extends React.Component {
       type: 'Once',
       itemName: '',
       itemQty: 0,
+      itemReq: 0,
       task: '',
       desc: '',
     };
@@ -66,12 +67,13 @@ class TaskForm extends React.Component {
   }
 
   addItem() {
-    const { itemName, itemQty } = this.state;
+    const { itemName, itemQty, itemReq } = this.state;
     let { items } = this.state;
 
     const item = {
       name: itemName,
       qty: itemQty,
+      req: itemReq,
     };
 
     items = items.concat(item);
@@ -80,6 +82,7 @@ class TaskForm extends React.Component {
       items,
       itemName: '',
       itemQty: 0,
+      itemReq: 0,
     });
   }
 
@@ -101,13 +104,14 @@ class TaskForm extends React.Component {
 
   render() {
     const {
-      itemName, itemQty, items, type,
+      itemName, itemQty, items, type, itemReq,
     } = this.state;
 
     const inputrow = (
       <div className="inputrow">
         <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} value={itemName} placeholder="Item" />
-        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={itemQty} placeholder="Amount" />
+        <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={itemQty} placeholder="Have" /> /
+        <input name="itemReq" type="number" id="itemReq" required onChange={this.handleChange} value={itemReq} placeholder="Required" />
         <br />
         <button onClick={this.addItem} type="button"> Add new row </button>
       </div>
@@ -116,9 +120,13 @@ class TaskForm extends React.Component {
     const itemsrows = (
       <div>
         {items.map((x, i) => (
-          <div key={i}>
+          <div key={(x.name, i)}>
             <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} defaultValue={x.name} />
             <input type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} />
+            {x.req
+            && <input type="number" onChange={e => this.changeItemList(e, x, i, 'req')} defaultValue={x.req} />
+            }
+
           </div>))}
       </div>
     );

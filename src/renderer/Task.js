@@ -1,5 +1,4 @@
 import React from 'react';
-import TaskList from './TaskList';
 
 const Task = ({ task, markDone, markRedo }) => {
   const basic = (
@@ -20,9 +19,10 @@ const Task = ({ task, markDone, markRedo }) => {
     <div className="itemlist">
       {task.items && (task.items.length > 0)
       && (<div className="items">
-        <span className="itemlist"> Needed materials: </span>
+        <div className="itemlist"> Needed materials: </div>
         {task.items.map((p, i) => (
-          <div key={i}> {p.name} <span>{p.qty}</span></div>
+          <div key={i}> {p.name} <span>{p.qty} {p.req != null && `/ ${p.req}`} </span>
+          </div>
         ))}
       </div>
       )}
@@ -46,10 +46,12 @@ const Task = ({ task, markDone, markRedo }) => {
   }
 
   return (
-    <div className="task" key={task.task}>
-      {basic}
-      <div className="check">
-        <button type="button" className="button" onClick={() => markRedo(task)}>&#x21BB;</button>
+    <div className="task">
+      <div className="taskrow" key={task.task}>
+        {basic}
+        <div className="check">
+          <button type="button" className="button" onClick={() => markRedo(task)}>&#x21BB;</button>
+        </div>
       </div>
     </div>
   );
