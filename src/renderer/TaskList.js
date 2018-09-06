@@ -23,6 +23,7 @@ class TaskList extends React.Component {
     this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
     this.markRedo = this.markRedo.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.changeItem = this.changeItem.bind(this);
   }
 
   componentDidMount() {
@@ -36,7 +37,6 @@ class TaskList extends React.Component {
       this.setState({ done });
     }
   }
-
 
   handleChange(event) {
     console.log(event.target.value);
@@ -98,6 +98,18 @@ class TaskList extends React.Component {
     this.saveToLocalStorage(tasks, done);
   }
 
+  changeItem(id, iid, n) {
+    const { list } = this.state;
+    let task = list[id];
+    console.log(task)
+    let items = task.items;
+    console.log(task.items[iid]);
+    task.items[iid].qty = n;
+    console.log(task.items[iid]);
+    list[id] = task;
+    this.setState({ list });
+  }
+
   saveToLocalStorage(list, done) {
     window.localStorage.setItem('getTasks', JSON.stringify(list));
     window.localStorage.setItem('getDone', JSON.stringify(done));
@@ -140,7 +152,7 @@ class TaskList extends React.Component {
         {!tasks.length && <span>No {filter} tasks found.</span>}
         {tasks.map((p, i) => (
           <div key={i}>
-            <Task task={p} markDone={this.markDone} markRedo={this.markRedo}/>
+            <Task task={p} markDone={this.markDone} markRedo={this.markRedo} changeItem={this.changeItem} id={i} />
           </div>)) }
 
         <h3> Add a new task </h3>

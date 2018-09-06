@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Task = ({ task, markDone, markRedo }) => {
+const Task = ({ task, markDone, markRedo, changeItem, id }) => {
   const basic = (
     <div className="taskText">
       <div className="name">
@@ -22,7 +22,14 @@ const Task = ({ task, markDone, markRedo }) => {
       <div className="items">
         <div className="itemlist"> Needed materials: </div>
         {task.items.map((p, i) => (
-          <div key={i}> {p.name} <span>{p.qty} {p.req != null && `/ ${p.req}`} </span>
+          <div key={i}> {p.name}
+            <span>
+              <input type="number" value={p.qty} />
+              {p.req != null && `/ ${p.req}`}
+            </span>
+            <button type="button" className="increment" onClick={() => changeItem(id, i, (parseInt((p.qty), 10) + 1))}>+</button>
+            <button type="button" className="decrement" onClick={() => changeItem(id, i, (parseInt((p.qty), 10) - 1))}>-</button>
+            <button type="button" className="markDone" onClick={() => changeItem(id, i, p.req)}>&#10003;</button>
           </div>
         ))}
       </div>
