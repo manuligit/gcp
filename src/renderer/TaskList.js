@@ -24,6 +24,7 @@ class TaskList extends React.Component {
     this.markRedo = this.markRedo.bind(this);
     this.toggle = this.toggle.bind(this);
     this.changeItem = this.changeItem.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
 
   componentDidMount() {
@@ -110,6 +111,20 @@ class TaskList extends React.Component {
     this.setState({ list });
   }
 
+  deleteTask(id) {
+    // Remove task from done-list
+    //let confirm = window.alert('Are you sure you want to delete this task?');
+    //if (confirm) {
+    let { list, done } = this.state;
+    console.log(id)
+    console.log(done)
+    done = done.slice(id+1);
+    console.log(done)
+    this.setState({ done });
+
+    this.saveToLocalStorage(list, done);
+  }
+
   saveToLocalStorage(list, done) {
     window.localStorage.setItem('getTasks', JSON.stringify(list));
     window.localStorage.setItem('getDone', JSON.stringify(done));
@@ -152,7 +167,7 @@ class TaskList extends React.Component {
         {!tasks.length && <span>No {filter} tasks found.</span>}
         {tasks.map((p, i) => (
           <div key={i}>
-            <Task task={p} markDone={this.markDone} markRedo={this.markRedo} changeItem={this.changeItem} id={i} />
+            <Task task={p} markDone={this.markDone} markRedo={this.markRedo} changeItem={this.changeItem} deleteTask={this.deleteTask} id={i} />
           </div>)) }
 
         <h3> Add a new task </h3>

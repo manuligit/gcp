@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Task = ({ task, markDone, markRedo, changeItem, id }) => {
+const Task = ({ task, markDone, markRedo, changeItem, id, deleteTask, }) => {
   const basic = (
     <div className="taskText">
       <div className="name">
@@ -60,6 +60,10 @@ const Task = ({ task, markDone, markRedo, changeItem, id }) => {
         <div className="check">
           <button type="button" className="button" onClick={() => markRedo(task)}>&#x21BB;</button>
         </div>
+        <div className="check">
+          <button type="button" className="delete" onClick={() => deleteTask(id)}>Delete permanently</button>
+        </div>
+        
       </div>
     </div>
   );
