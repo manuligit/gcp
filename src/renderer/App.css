@@ -110,6 +110,20 @@ ul li:hover {
     float: right;
 }
 
+.task .itemlist .nr {
+    width: 3em;
+}
+
+.task .itemlist button {
+    border: 1px solid white;
+    color: white;
+    background-color: var(--main-bg-color);
+}
+
+.task .itemlist button:hover {
+    background-color: var(--secondary-bg-color);
+}
+
 .input {
     margin-bottom: 1em;
 }

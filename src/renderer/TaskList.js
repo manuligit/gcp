@@ -100,26 +100,34 @@ class TaskList extends React.Component {
   }
 
   changeItem(id, iid, n) {
-    const { list } = this.state;
-    let task = list[id];
-    console.log(task)
-    let items = task.items;
+    const { list, done } = this.state;
+    const task = list[id];
+    console.log(task);
+    // let items = task.items;
     console.log(task.items[iid]);
-    task.items[iid].qty = n;
+    if (n) {
+      task.items[iid].qty = n;
+      list[id] = task;
+      this.setState({ list });
+    } else {
+      // Allow editing of number field without NaN:
+      task.items[iid].qty = '';
+      list[id] = task;
+    }
     console.log(task.items[iid]);
     list[id] = task;
     this.setState({ list });
+
+    this.saveToLocalStorage(list, done);
   }
 
   deleteTask(id) {
-    // Remove task from done-list
-    //let confirm = window.alert('Are you sure you want to delete this task?');
-    //if (confirm) {
-    let { list, done } = this.state;
-    console.log(id)
-    console.log(done)
-    done = done.slice(id+1);
-    console.log(done)
+    // Remove task permanently from done-list
+    const { list, done } = this.state;
+    // console.log(id);
+    // console.log(done);
+    done.splice(id, 1);
+    // console.log(done);
     this.setState({ done });
 
     this.saveToLocalStorage(list, done);

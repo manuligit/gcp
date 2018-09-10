@@ -24,7 +24,7 @@ const Task = ({ task, markDone, markRedo, changeItem, id, deleteTask }) => {
         {task.items.map((p, i) => (
           <div key={i}> {p.name}
             <span>
-              <input type="number" value={p.qty} />
+              <input className="nr" type="number" onChange={e => changeItem(id, i, parseInt(e.target.value, 10))} value={p.qty} />
               {p.req != null && `/ ${p.req}`}
             </span>
             <button type="button" className="increment" onClick={() => changeItem(id, i, (parseInt((p.qty), 10) + 1))}>+</button>
