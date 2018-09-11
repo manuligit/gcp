@@ -124,12 +124,22 @@ ul li:hover {
     background-color: var(--secondary-bg-color);
 }
 
+.itemsrows input[type=number] {
+    width: 5em;
+    border: 2px solid blue;
+}
+
 .input {
     margin-bottom: 1em;
 }
 
 .inputrow {
     background-color: pink;
+}
+
+.inputrow input[type=number] {
+    width: 5em;
+    border: 2px solid green;
 }
 
 .divider {
