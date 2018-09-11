@@ -4,7 +4,7 @@ const Task = ({ task, markDone, markRedo, changeItem, id, deleteTask }) => {
   const basic = (
     <div className="taskText">
       <div className="name">
-        {task.task}
+        {task.task} {task.date}
       </div>
       <div className="type">
         {task.type}

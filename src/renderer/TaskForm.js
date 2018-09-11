@@ -64,7 +64,6 @@ class TaskForm extends React.Component {
         qty: itemQty,
         req: itemReq,
       };
-  
       items = items.concat(item);
     }
 
@@ -72,11 +71,13 @@ class TaskForm extends React.Component {
 
     console.log('createtask');
     event.preventDefault();
+    const date = Date.now();
     let newTask = {
       task,
       desc,
       type,
       done: false,
+      date,
     };
 
     this.setState({
