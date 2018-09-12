@@ -63,7 +63,6 @@ const Task = ({ task, markDone, markRedo, changeItem, id, deleteTask }) => {
         <div className="check">
           <button type="button" className="button" onClick={() => deleteTask(id)}>x</button>
         </div>
-        
       </div>
     </div>
   );
