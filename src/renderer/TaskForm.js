@@ -66,7 +66,7 @@ class TaskForm extends React.Component {
     const {
       itemName, itemQty, itemReq, task, desc, type,
     } = this.state;
-
+    const { addTask } = this.props;
     let { items = [] } = this.state;
 
     // if the fields are not empty, add the last row to item list
@@ -80,8 +80,6 @@ class TaskForm extends React.Component {
       items = items.concat(item);
     }
 
-    const { addTask } = this.props;
-
     console.log('createtask');
     event.preventDefault();
     const date = Date.now();
@@ -93,16 +91,16 @@ class TaskForm extends React.Component {
       date,
     };
 
+    if (items.length > 0) {
+      newTask = { ...newTask, items };
+    }
+
     this.setState({
       task: '',
       desc: '',
       type: 'Once',
       items: [],
-    });
-
-    if (items.length > 0) {
-      newTask = { ...newTask, items };
-    }
+    }, console.log('AAAAAA', this.state.task, this.state.desc));
 
     addTask(newTask);
   }
@@ -153,10 +151,12 @@ class TaskForm extends React.Component {
 
   filterResults(search) {
     const { names } = this.state;
+    let filteredList = [];
 
-    //console.log(names);
-    const filteredList = names.filter(i => i.toLowerCase().includes(search.toLowerCase()));
-    //console.log(search);
+    if (search.length > 1) {
+      filteredList = names.filter(i => i.toLowerCase().includes(search.toLowerCase()));
+    }
+
     console.log(filteredList.length);
     console.log(filteredList.slice(0, 4));
     this.setState({ filteredList: filteredList });
@@ -164,12 +164,12 @@ class TaskForm extends React.Component {
 
   render() {
     const {
-      itemName, itemQty, items, type, itemReq, visible, filteredList,
+      itemName, itemQty, items, type, itemReq, visible, filteredList, task, desc,
     } = this.state;
 
     const autocomplete = (
       <div className="autocomplete">
-        {filteredList.slice(0, 5).map(x => (
+        {filteredList.map(x => (
           <div key={x} name="itemName" onClick={e => this.handleClick("itemName", x)}>{x}
           </div>
         ))}
@@ -192,7 +192,6 @@ class TaskForm extends React.Component {
         {items.map((x, i) => (
           <div key={(x.name, i)}>
             <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} defaultValue={x.name} />
-            {autocomplete}
             <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} /> / 
             <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'req')} defaultValue={x.req} />
             <button type="button" name="removeRow" id="removeRow" onClick={() => this.removeRow(i)}>Delete row</button>
@@ -207,14 +206,14 @@ class TaskForm extends React.Component {
             <label htmlFor="task">
               Name
             </label>
-            <input id="task" type="text" name="task" onChange={this.handleChange} required />
+            <input id="task" type="text" name="task" value={task} onChange={this.handleChange} required />
           </div>
           <div>
             <label htmlFor="desc">
               Description
             </label>
             <br />
-            <textarea id="desc" name="desc" rows="5" cols="40" onChange={this.handleChange} />
+            <textarea id="desc" name="desc" value={desc} rows="5" cols="40" onChange={this.handleChange} />
           </div>
           <div>
             <label htmlFor="type">
