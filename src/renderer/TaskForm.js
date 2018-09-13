@@ -71,7 +71,7 @@ class TaskForm extends React.Component {
 
     // if the fields are not empty, add the last row to item list
     console.log({ itemName, itemQty, itemReq });
-    if (itemName !== '' && itemQty && itemReq !== 0) {
+    if (itemName !== '' && itemReq !== 0) {
       const item = {
         name: itemName,
         qty: itemQty,
@@ -100,6 +100,9 @@ class TaskForm extends React.Component {
       desc: '',
       type: 'Once',
       items: [],
+      itemName: '',
+      itemQty: 0,
+      itemReq: 0,
     }, console.log('AAAAAA', this.state.task, this.state.desc));
 
     addTask(newTask);
@@ -146,7 +149,7 @@ class TaskForm extends React.Component {
     console.log(items.length);
     items.splice(i, 1);
     console.log(items.length);
-    this.setState({ items });
+    this.setState({ items }, console.log(this.state.items));
   }
 
   filterResults(search) {
@@ -179,9 +182,9 @@ class TaskForm extends React.Component {
     const inputrow = (
       <div className="inputrow">
         <input name="itemName" type="text" id="itemName" required onChange={this.handleChange} value={itemName} placeholder="Item" />
-        {autocomplete}
         <input name="itemQty" type="number" id="itemQty" required onChange={this.handleChange} value={itemQty} placeholder="Have" /> /
         <input name="itemReq" type="number" id="itemReq" required onChange={this.handleChange} value={itemReq} placeholder="Required" />
+        {autocomplete}
         <br />
         <button onClick={this.addItem} type="button"> Add new row </button>
       </div>
@@ -191,9 +194,9 @@ class TaskForm extends React.Component {
       <div className="itemsrows">
         {items.map((x, i) => (
           <div key={(x.name, i)}>
-            <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} defaultValue={x.name} />
-            <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} defaultValue={x.qty} /> / 
-            <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'req')} defaultValue={x.req} />
+            <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} value={x.name} />
+            <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} value={x.qty} /> / 
+            <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'req')} value={x.req} />
             <button type="button" name="removeRow" id="removeRow" onClick={() => this.removeRow(i)}>Delete row</button>
           </div>))}
       </div>

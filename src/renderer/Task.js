@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Task = ({ task, markDone, markRedo, changeItem, id, deleteTask }) => {
+const Task = ({
+  task, markDone, markRedo, changeItem, id, deleteTask,
+}) => {
   const basic = (
     <div className="taskText">
       <div className="name">
