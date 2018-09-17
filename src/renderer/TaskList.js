@@ -25,6 +25,7 @@ class TaskList extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.changeItem = this.changeItem.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
+    this.calcPercentage = this.calcPercentage.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,44 @@ class TaskList extends React.Component {
     if (done) {
       this.setState({ done });
     }
+
+    //Check daily tasks and reset if needed:
+
+    //Set interval to check the tasks every once in a while:
+    // this.timerID = setInterval(
+    //   () => console.log('snib'),
+    //   10000,
+    // );
+  }
+
+  componentWillUnmount() {
+    // clearInterval(this.timerID);
+  }
+
+  // Save the time from next reset to state
+  // Evaluate the current time vs. the reset, if current>reset run reset function
+  // Resetting the timers after returning?
+  
+  // Get today's time
+  // Convert time zone to japanese
+  // check timestamp when the next 0500 am is
+  // Japan offset: UTC+9
+
+  checkQuestResets() {
+
+    // Get quests from done (and now since you could have partially done dailies/monthlies)
+
+    // Get time now
+
+    // Get time after the last reset
+
+    // Map through all the quests from the done list and compare to last reset
+
+    // if reset has gone by, add the new timestamp to the quests and add them to active quests
+
+    //Weekly
+
+    //Check if the week has changed since the old timestamp
   }
 
   handleChange(event) {
@@ -133,6 +172,18 @@ class TaskList extends React.Component {
     this.saveToLocalStorage(list, done);
   }
 
+  calcPercentage(qty, req) {
+    if (req === 0) {
+      return 0;
+    }
+
+    if (qty >= 0) {
+      return Math.floor(parseInt(req, 10) / parseInt(qty, 10));
+    }
+
+    return 0;
+  }
+
   saveToLocalStorage(list, done) {
     window.localStorage.setItem('getTasks', JSON.stringify(list));
     window.localStorage.setItem('getDone', JSON.stringify(done));
@@ -175,7 +226,7 @@ class TaskList extends React.Component {
         {!tasks.length && <span>No {filter} tasks found.</span>}
         {tasks.map((p, i) => (
           <div key={i}>
-            <Task task={p} markDone={this.markDone} markRedo={this.markRedo} changeItem={this.changeItem} deleteTask={this.deleteTask} id={i} />
+            <Task task={p} markDone={this.markDone} markRedo={this.markRedo} changeItem={this.changeItem} deleteTask={this.deleteTask} id={i} calcPercentage={this.calcPercentage} />
           </div>)) }
 
         <h3> Add a new task </h3>

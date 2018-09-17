@@ -1,13 +1,18 @@
 import React from 'react';
 
 const Task = ({
-  task, markDone, markRedo, changeItem, id, deleteTask,
+  task, markDone, markRedo, changeItem, id, deleteTask, calcPercentage,
 }) => {
+  var progress = {
+    backgroundColor: 'black'
+  };
+
   const basic = (
     <div className="taskText">
       <div className="name">
         {task.task} {task.date}
       </div>
+      {task.items && task.items.length > 0 && <span style={progress}>a</span>}
       <div className="type">
         {task.type}
       </div>
