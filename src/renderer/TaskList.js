@@ -31,7 +31,7 @@ class TaskList extends React.Component {
   componentDidMount() {
     const tasks = JSON.parse(localStorage.getItem('getTasks'));
     const done = JSON.parse(localStorage.getItem('getDone'));
-    console.log(tasks);
+    // console.log(tasks);
     if (tasks) {
       this.setState({ list: tasks });
     }
@@ -39,9 +39,9 @@ class TaskList extends React.Component {
       this.setState({ done });
     }
 
-    //Check daily tasks and reset if needed:
+    // Check daily tasks and reset if needed:
 
-    //Set interval to check the tasks every once in a while:
+    // Set interval to check the tasks every once in a while:
     // this.timerID = setInterval(
     //   () => console.log('snib'),
     //   10000,
@@ -55,7 +55,7 @@ class TaskList extends React.Component {
   // Save the time from next reset to state
   // Evaluate the current time vs. the reset, if current>reset run reset function
   // Resetting the timers after returning?
-  
+
   // Get today's time
   // Convert time zone to japanese
   // check timestamp when the next 0500 am is
@@ -73,9 +73,9 @@ class TaskList extends React.Component {
 
     // if reset has gone by, add the new timestamp to the quests and add them to active quests
 
-    //Weekly
+    // Weekly
 
-    //Check if the week has changed since the old timestamp
+    // Check if the week has changed since the old timestamp
   }
 
   handleChange(event) {
@@ -93,7 +93,8 @@ class TaskList extends React.Component {
   }
 
   addTask(item) {
-    let { list, done } = this.state;
+    let { list } = this.state;
+    const { done } = this.state;
     list = list.concat(item);
     this.setState({ list });
     // console.log(list)
@@ -104,7 +105,8 @@ class TaskList extends React.Component {
   // Mark task as done and move it to the list of done tasks:
   markDone(task) {
     // console.log('markDone disabled')
-    let { list, done } = this.state;
+    let { done } = this.state;
+    const { list } = this.state;
 
     const tasks = list.filter(item => item !== task);
 
@@ -191,7 +193,6 @@ class TaskList extends React.Component {
 
   filterList(f) {
     // Filter the list according to the list above:
-    console.log('setting filter to ', f);
     this.setState({ filter: f });
   }
 
@@ -205,8 +206,6 @@ class TaskList extends React.Component {
     let tasks = list;
     if (filter === 'Done') {
       tasks = done;
-      // console.log(tasks);
-      // console.log(tasks.length);
     } else if (filter !== 'All') {
       tasks = tasks.filter(i => i.type === filter);
     }

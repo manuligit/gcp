@@ -195,7 +195,7 @@ class TaskForm extends React.Component {
         {items.map((x, i) => (
           <div key={(x.name, i)}>
             <input type="text" onChange={e => this.changeItemList(e, x, i, 'name')} value={x.name} />
-            <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} value={x.qty} /> / 
+            <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'qty')} value={x.qty} /> /
             <input className="itemsrow-number" type="number" onChange={e => this.changeItemList(e, x, i, 'req')} value={x.req} />
             <button type="button" name="removeRow" id="removeRow" onClick={() => this.removeRow(i)}>Delete row</button>
           </div>))}

@@ -3,7 +3,7 @@ import React from 'react';
 const Task = ({
   task, markDone, markRedo, changeItem, id, deleteTask, calcPercentage,
 }) => {
-  var progress = {
+  const progress = {
     backgroundColor: 'black'
   };
 
