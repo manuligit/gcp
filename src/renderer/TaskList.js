@@ -1,6 +1,7 @@
 import React from 'react';
 import Task from './Task';
 import TaskForm from './TaskForm';
+import Clock from './Clock';
 
 class TaskList extends React.Component {
   constructor(props) {
@@ -62,7 +63,6 @@ class TaskList extends React.Component {
   // Japan offset: UTC+9
 
   checkQuestResets() {
-
     // Get quests from done (and now since you could have partially done dailies/monthlies)
 
     // Get time now
@@ -77,6 +77,8 @@ class TaskList extends React.Component {
 
     // Check if the week has changed since the old timestamp
   }
+
+  
 
   handleChange(event) {
     console.log(event.target.value);
@@ -212,6 +214,7 @@ class TaskList extends React.Component {
 
     return (
       <div>
+        <Clock />
         <div className="header">
           <ul>
             <li onClick={() => this.filterList('All')}>All</li>
