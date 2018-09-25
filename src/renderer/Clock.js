@@ -9,6 +9,10 @@ class Clock extends React.Component {
       hours: '',
       minutes: '',
       seconds: '',
+      lastWeekly: '',
+      lastMontly: '',
+      resetWeekly: '',
+      resetMonthly: '',
     };
   }
 
@@ -22,6 +26,26 @@ class Clock extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.timerID);
+  }
+
+  calculateWeeklyReset() {
+    let date = new Date();
+    //get the date for next Monday:
+    // sun = 0 sat = 6
+    //monday = 1
+    let day = date.getDate();
+    
+    const nextReset = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), (date.getUTCDate() + 1), (20), 0, 0, 0));
+    
+
+  }
+
+  calculateMonthlyReset() {
+    let date = new Date();
+    const lastMontly = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1, (20), 0, 0, 0));
+    const resetMontly = new Date(Date.UTC(date.getUTCFullYear(), (date.getUTCMonth() + 1), 1, (20), 0, 0, 0));
+
+    this.setState({ lastMontly, resetMonthly });
   }
 
   tick() {
@@ -43,18 +67,33 @@ class Clock extends React.Component {
 
   resetDaily() {
     let date = new Date();
-    //const nextReset = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), (date.getUTCDate()), (11), 16, 0, 0));
-    //const nextReset = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), (date.getUTCDate() + 1), (10), 14, 0, 0));
+    // const nextReset = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), (date.getUTCDate()), (11), 16, 0, 0));
+    // const nextReset = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), (date.getUTCDate() + 1), (10), 14, 0, 0));
     const nextReset = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), (date.getUTCDate() + 1), (20), 0, 0, 0));
+    //todo: daily/weekly reset
+
     this.setState({ reset: nextReset });
+
+    //poll the task lists from the tasklist
+    //update the date on every task with updateable date
+
+    //for weekly/monthlies, poll last & next reset
+    // if curr < last, curr = last
+    // if last < curr < next, do nothing
+    // if curr > next, curr = next
+  }
+
+  updatetasks() {
+    
   }
 
 
+
   render() {
-    let { curr, reset, hours, minutes, seconds } = this.state;
+    const { curr, reset, hours, minutes, seconds } = this.state;
 
     return (
-      <div>Resets in: {hours} hours, {minutes} minutes, {seconds} seconds </div>
+      <div>Daily reset in: {hours} hours, {minutes} minutes, {seconds} seconds </div>
     );
   }
 }
