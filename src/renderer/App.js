@@ -4,7 +4,7 @@ import './App.css';
 
 const App = () => (
   <div>
-    <TaskList />
+    Time for embedding desu
   </div>
 );
 
