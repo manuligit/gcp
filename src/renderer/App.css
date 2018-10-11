@@ -1,6 +1,7 @@
 * {
     border: solid 1px green;
     box-sizing: border-box;
+    left: 300px;
 }
 
 :root {
@@ -14,6 +15,13 @@ body {
     color: var(--main-font);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
+webview {
+    float: left;
+    width: 100%;
+    height: 500px;
+}
+
 ul {
     padding: 0;
     margin: 0;

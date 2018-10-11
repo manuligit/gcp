@@ -18,17 +18,17 @@ function createMainWindow() {
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
-    let child = new BrowserWindow({parent: window, width: 400, height: 800, resizable: false, frame: false, });
-    let pos = window.getPosition();
-    child.setPosition(pos[0],pos[1]);
-    child.loadURL('https://github.com');
-    child.once('ready-to-show', () => {
-      child.show();
-    });
+    // let child = new BrowserWindow({parent: window, width: 400, height: 500, resizable: false, frame: false, });
+    // let right = new BrowserWindow({parent: window, width: 400, height: 500, resizable: false, frame: false, });
+
+    // let pos = window.getPosition();
+    // child.setPosition(pos[0],pos[1]);
+    // right.setPosition(pos[0]+400, pos[1]);
+    // child.loadURL('https://github.com');
+    // child.once('ready-to-show', () => {
+    //   child.show();
+    // });
   }
-
-
-
 
   else {
     window.loadURL(formatUrl({
